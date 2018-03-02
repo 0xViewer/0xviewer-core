@@ -1,0 +1,16 @@
+.gradle
+local.properties
+
+.idea
+*.iml
+
+.vscode
+
+package-lock.json
+node_modules
+
+build
+out
+release
+
+_build
