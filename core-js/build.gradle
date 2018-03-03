@@ -53,6 +53,7 @@ node {
 task installNodeDependencies(type: YarnTask) {
     args = ['add',
             "axios@$axios_version",
+            "jsdom@$jsdom_version",
     ]
 }
 

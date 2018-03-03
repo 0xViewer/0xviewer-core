@@ -14,21 +14,10 @@
  * limitations under the License.
  */
 
-apply plugin: 'kotlin-platform-jvm'
+package com.ehviewer.core.dom
 
-dependencies {
-    expectedBy project(":core")
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
-    compile "com.squareup.okhttp3:okhttp:$okhttp_version"
-    compile "org.jsoup:jsoup:$jsoup_version"
-    testCompile "junit:junit:$junit_version"
-    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    testCompile "com.squareup.okhttp3:mockwebserver:$okhttp_version"
-}
+import org.w3c.dom.Element
 
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
+actual class Element(private val element: Element) {
+
 }
