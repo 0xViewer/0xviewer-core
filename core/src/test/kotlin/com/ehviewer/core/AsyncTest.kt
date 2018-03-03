@@ -14,27 +14,36 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+package com.ehviewer.core
 
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_plugin_version"
-    }
-}
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 
-subprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+/**
+ * A test class for async functions.
+ *
+ * Please follow all rules below.
+ * 1. Use [onBefore] instead of [BeforeTest].
+ * 2. Use [onAfter] instead of [AfterTest].
+ * 3. Add tests like this.
+ * ```
+ * @Test
+ * fun myTest() = runTest {
+ *   ...
+ * }
+ * ```
+ */
+expect open class AsyncTest() {
+
+  @BeforeTest
+  fun before()
+
+  open suspend fun onBefore()
+
+  fun <T> runTest(block: suspend () -> T)
+
+  @AfterTest
+  fun after()
+
+  open suspend fun onAfter()
 }

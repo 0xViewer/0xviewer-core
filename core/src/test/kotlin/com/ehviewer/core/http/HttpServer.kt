@@ -14,27 +14,28 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+package com.ehviewer.core.http
 
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_plugin_version"
-    }
-}
+import kotlinx.coroutines.experimental.Deferred
 
-subprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+/**
+ * An HTTP server.
+ *
+ * The server always returns responses under the following restrictions:
+ * 1. response code is the value of the request header "Code"
+ * 2. response headers contains request headers, but header names has a prefix "Request-"
+ * 3. response body is request url
+ */
+expect class HttpServer() {
+
+  fun start(port: Int)
+
+  fun stop()
+
+  fun assertRequest(
+      method: String,
+      url: String,
+      headers: Map<String, String>?,
+      body: String?
+  ): Deferred<Unit>
 }

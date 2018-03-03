@@ -6,7 +6,9 @@ local.properties
 
 .vscode
 
+package.json
 package-lock.json
+yarn.lock
 node_modules
 
 build

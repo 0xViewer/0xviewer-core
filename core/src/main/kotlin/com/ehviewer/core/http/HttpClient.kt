@@ -14,27 +14,31 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+package com.ehviewer.core.http
 
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_plugin_version"
-    }
-}
+import com.ehviewer.core.PublicAPI
 
-subprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+/**
+ * An HTTP client.
+ */
+@PublicAPI
+expect class HttpClient {
+
+  /**
+   * Create a HTTP request.
+   */
+  @PublicAPI
+  fun newRequest(): HttpRequest
+
+  /**
+   * Add a cookie to this HTTP client.
+   */
+  @PublicAPI
+  fun addCookie(name: String, value: String, domain: String, path: String)
+
+  /**
+   * Remove the special cookie from the HTTP client.
+   */
+  @PublicAPI
+  fun removeCookie(name: String, domain: String, path: String)
 }

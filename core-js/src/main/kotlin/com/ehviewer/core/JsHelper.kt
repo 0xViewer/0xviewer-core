@@ -14,27 +14,10 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+package com.ehviewer.core
 
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_plugin_version"
-    }
-}
-
-subprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+inline fun jsObject(builder: (dynamic) -> Unit): dynamic {
+  val obj: dynamic = js("({})")
+  builder(obj)
+  return obj
 }

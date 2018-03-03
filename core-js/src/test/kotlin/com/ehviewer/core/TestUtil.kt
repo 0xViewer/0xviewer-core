@@ -14,27 +14,18 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+package com.ehviewer.core
 
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_plugin_version"
-    }
-}
+import kotlinx.coroutines.experimental.delay
 
-subprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+/**
+ * Check the checker per 200ms, wait until checker returns true.
+ * A js async-version wait()/notify().
+ */
+suspend inline fun wait(checker: () -> Boolean) {
+  while (!checker()) {
+    // It's inefficient, but works.
+    // Should be refactored after channels are available in js.
+    delay(100)
+  }
 }

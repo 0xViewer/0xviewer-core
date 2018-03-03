@@ -14,27 +14,29 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+package com.ehviewer.core
 
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_plugin_version"
-    }
-}
+import kotlinx.coroutines.experimental.runBlocking
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 
-subprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+actual open class AsyncTest {
+
+  @BeforeTest
+  actual fun before() {
+    runBlocking { onBefore() }
+  }
+
+  actual open suspend fun onBefore() {}
+
+  actual fun <T> runTest(block: suspend () -> T)  {
+    runBlocking { block() }
+  }
+
+  @AfterTest
+  actual fun after() {
+    runBlocking { onAfter() }
+  }
+
+  actual open suspend fun onAfter() {}
 }

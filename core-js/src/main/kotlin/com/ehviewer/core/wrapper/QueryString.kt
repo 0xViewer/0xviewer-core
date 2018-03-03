@@ -14,27 +14,20 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+package com.ehviewer.core.wrapper
 
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_plugin_version"
-    }
+import com.ehviewer.core.jsObject
+
+@JsModule("querystring")
+external object QueryString {
+  fun stringify(obj: dynamic): String
 }
 
-subprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
+fun QueryString.stringifyMap(map: Map<String, String>): String {
+  val obj: dynamic = jsObject {
+    map.forEach { (name, value) ->
+      it[name] = value
     }
+  }
+  return stringify(obj)
 }

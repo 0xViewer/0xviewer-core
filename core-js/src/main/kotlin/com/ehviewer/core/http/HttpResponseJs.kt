@@ -14,27 +14,20 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+package com.ehviewer.core.http
 
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_plugin_version"
-    }
-}
+import com.ehviewer.core.PublicAPI
+import com.ehviewer.core.wrapper.Response
 
-subprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+@PublicAPI
+actual class HttpResponse(private val response: Response) {
+
+  @PublicAPI
+  actual fun code(): Int = response.status
+
+  @PublicAPI
+  actual fun header(name: String): String? = response.headers[name.toLowerCase()] as? String
+
+  @PublicAPI
+  actual fun string(): String = response.data ?: ""
 }

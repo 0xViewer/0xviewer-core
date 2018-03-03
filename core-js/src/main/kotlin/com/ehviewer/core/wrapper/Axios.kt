@@ -14,27 +14,29 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+package com.ehviewer.core.wrapper
 
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_plugin_version"
-    }
+import com.ehviewer.core.jsObject
+import kotlin.js.Promise
+
+@JsModule("axios")
+external fun axios(request: Request): Promise<Response>
+
+external interface Request {
+  var method: String
+  var url: String
+  var headers: dynamic
+  var data: dynamic
 }
 
-subprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+external interface Response {
+  val status: Int
+  val headers: dynamic
+  val data: String?
+}
+
+@Suppress("UnsafeCastFromDynamic")
+fun newRequest(): Request = jsObject {
+  it["responseType"] = "text"
+  it["validateStatus"] = fun (_: Int): Boolean = true
 }

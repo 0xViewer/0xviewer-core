@@ -14,27 +14,31 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+package com.ehviewer.core.http
 
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_plugin_version"
-    }
-}
+import com.ehviewer.core.PublicAPI
 
-subprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2" }
-        maven { url "https://jitpack.io" }
-    }
+/**
+ * An HTTP response.
+ */
+@PublicAPI
+expect class HttpResponse {
+
+  /**
+   * Returns the HTTP status code.
+   */
+  @PublicAPI
+  fun code(): Int
+
+  /**
+   * Returns values of the header with the special name.
+   */
+  @PublicAPI
+  fun header(name: String): String?
+
+  /**
+   * Returns the response as a string.
+   */
+  @PublicAPI
+  fun string(): String
 }
