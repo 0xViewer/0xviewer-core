@@ -16,5 +16,9 @@
 
 package com.ehviewer.core
 
-@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
+@Target(
+    AnnotationTarget.CLASS,
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER
+)
 annotation class PublicAPI

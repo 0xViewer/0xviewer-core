@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-apply plugin: 'kotlin-platform-js'
+package com.ehviewer.core.json
 
-dependencies {
-    expectedBy project(":core")
-    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$kotlinx_coroutines_version"
-    testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
-}
+class JsonFactoryMin : JsonFactory() {
 
-kotlin {
-    experimental {
-        coroutines "enable"
+  override fun newJsonObject() = JsonObjectMin(com.eclipsesource.json.JsonObject())
+
+  override fun newJsonArray() = JsonArrayMin(com.eclipsesource.json.JsonArray())
+
+  override fun parseJson(text: String): Json {
+    val value = com.eclipsesource.json.Json.parse(text)
+    return when (value) {
+      is com.eclipsesource.json.JsonObject -> JsonObjectMin(value)
+      is com.eclipsesource.json.JsonArray -> JsonArrayMin(value)
+      else -> throw IllegalStateException("value is not a json: $value")
     }
-}
-
-[compileKotlin2Js, compileTestKotlin2Js]*.configure {
-    kotlinOptions.metaInfo = true
-    kotlinOptions.moduleKind = 'umd'
+  }
 }

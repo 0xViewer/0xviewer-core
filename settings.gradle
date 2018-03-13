@@ -14,6 +14,14 @@
  * limitations under the License.
  */
 
-include 'core'
-include 'core-jvm'
-include 'core-js'
+include ':core'
+include ':core-jvm'
+include ':core-js'
+
+include ':modules:json-minimal-json'
+include ':modules:json-js'
+include ':modules:json-test'
+
+include ':test'
+include ':test-jvm'
+include ':test-js'

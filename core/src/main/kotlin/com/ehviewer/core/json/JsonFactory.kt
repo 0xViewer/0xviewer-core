@@ -14,27 +14,33 @@
  * limitations under the License.
  */
 
-package com.ehviewer.core
+package com.ehviewer.core.json
+
+import com.ehviewer.core.PublicAPI
 
 /**
- * Creates a new js object.
+ * Creates [JsonObject] or [JsonArray] instances, and parse json text.
  */
-inline fun jsObject(builder: (dynamic) -> Unit = {}): dynamic {
-  val obj: dynamic = js("({})")
-  builder(obj)
-  return obj
+@PublicAPI
+abstract class JsonFactory {
+
+  /**
+   * Creates a new [JsonObject].
+   */
+  @PublicAPI
+  abstract fun newJsonObject(): JsonObject
+
+  /**
+   * Creates a new [JsonArray].
+   */
+  @PublicAPI
+  abstract fun newJsonArray(): JsonArray
+
+  /**
+   * Parses a json text to a [JsonObject] or a [JsonArray].
+   *
+   * @throws Throwable if can't parse the text to a [JsonObject] or a [JsonArray]
+   */
+  @PublicAPI
+  abstract fun parseJson(text: String): Json
 }
-
-/**
- * Returns `true` if the variable is an object and not a array.
- */
-fun isObject(obj: dynamic): Boolean = obj != null && jsTypeOf(obj) == "object"
-
-private external object Array {
-  fun isArray(arr: dynamic): Boolean
-}
-
-/**
- * Returns `true` if the variable is an array.
- */
-fun isArray(arr: dynamic): Boolean = Array.isArray(arr)

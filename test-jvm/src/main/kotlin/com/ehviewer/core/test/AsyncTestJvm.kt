@@ -14,22 +14,29 @@
  * limitations under the License.
  */
 
-apply plugin: 'kotlin-platform-js'
+package com.ehviewer.core.test
 
-dependencies {
-    expectedBy project(":core")
-    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$kotlinx_coroutines_version"
-    testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
-}
+import kotlinx.coroutines.experimental.runBlocking
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
-}
+actual open class AsyncTest {
 
-[compileKotlin2Js, compileTestKotlin2Js]*.configure {
-    kotlinOptions.metaInfo = true
-    kotlinOptions.moduleKind = 'umd'
+  @BeforeTest
+  actual fun before() {
+    runBlocking { onBefore() }
+  }
+
+  actual open suspend fun onBefore() {}
+
+  actual fun <T> runTest(block: suspend () -> T)  {
+    runBlocking { block() }
+  }
+
+  @AfterTest
+  actual fun after() {
+    runBlocking { onAfter() }
+  }
+
+  actual open suspend fun onAfter() {}
 }

@@ -14,22 +14,36 @@
  * limitations under the License.
  */
 
-apply plugin: 'kotlin-platform-js'
+package com.ehviewer.core.test
 
-dependencies {
-    expectedBy project(":core")
-    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$kotlinx_coroutines_version"
-    testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
-}
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
-}
+/**
+ * A test class for async functions.
+ *
+ * Please follow all rules below.
+ * 1. Use [onBefore] instead of [BeforeTest].
+ * 2. Use [onAfter] instead of [AfterTest].
+ * 3. Add tests like this.
+ * ```
+ * @Test
+ * fun myTest() = runTest {
+ *   ...
+ * }
+ * ```
+ */
+expect open class AsyncTest() {
 
-[compileKotlin2Js, compileTestKotlin2Js]*.configure {
-    kotlinOptions.metaInfo = true
-    kotlinOptions.moduleKind = 'umd'
+  @BeforeTest
+  fun before()
+
+  open suspend fun onBefore()
+
+  fun <T> runTest(block: suspend () -> T)
+
+  @AfterTest
+  fun after()
+
+  open suspend fun onAfter()
 }

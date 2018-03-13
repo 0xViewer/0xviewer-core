@@ -17,10 +17,10 @@
 apply plugin: 'kotlin-platform-js'
 
 dependencies {
-    expectedBy project(":core")
+    expectedBy project(":test")
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$kotlinx_coroutines_version"
-    testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
 }
 
 kotlin {
@@ -33,3 +33,10 @@ kotlin {
     kotlinOptions.metaInfo = true
     kotlinOptions.moduleKind = 'umd'
 }
+
+project.ext {
+    nodeDependencies = []
+    nodeDevDependencies = []
+}
+
+apply from: rootProject.file('nodejs-test.gradle')

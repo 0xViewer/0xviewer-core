@@ -14,22 +14,6 @@
  * limitations under the License.
  */
 
-apply plugin: 'kotlin-platform-js'
+package com.ehviewer.core.json
 
-dependencies {
-    expectedBy project(":core")
-    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$kotlinx_coroutines_version"
-    testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
-}
-
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
-}
-
-[compileKotlin2Js, compileTestKotlin2Js]*.configure {
-    kotlinOptions.metaInfo = true
-    kotlinOptions.moduleKind = 'umd'
-}
+actual fun newJsonFactory(): JsonFactory = JsonFactoryJs()

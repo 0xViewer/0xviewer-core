@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-apply plugin: 'kotlin-platform-js'
+package com.ehviewer.core.test
 
-dependencies {
-    expectedBy project(":core")
-    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$kotlinx_coroutines_version"
-    testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
-}
+import kotlinx.coroutines.experimental.delay
 
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
-}
-
-[compileKotlin2Js, compileTestKotlin2Js]*.configure {
-    kotlinOptions.metaInfo = true
-    kotlinOptions.moduleKind = 'umd'
+/**
+ * Check the checker per 200ms, wait until checker returns true.
+ * A js async-version wait()/notify().
+ */
+suspend inline fun wait(checker: () -> Boolean) {
+  while (!checker()) {
+    // TODO It's inefficient, but works.
+    // Should be refactored after channels are available in js.
+    delay(100)
+  }
 }
