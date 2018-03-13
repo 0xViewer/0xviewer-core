@@ -14,28 +14,28 @@
  * limitations under the License.
  */
 
-package com.ehviewer.core.http
+// #include guards
+if (project.hasProperty('__JS_TEST_GRADLE__')) {
+    return
+} else {
+    project.ext {
+        __JS_TEST_GRADLE__ = true
+    }
+}
 
-import kotlinx.coroutines.experimental.Deferred
+apply plugin: 'com.moowork.node'
 
-/**
- * An HTTP server.
- *
- * The server always returns responses under the following restrictions:
- * 1. response code is the value of the request header "Code"
- * 2. response headers contains request headers, but header names has a prefix "Request-"
- * 3. response body is request url
- */
-expect class HttpServer() {
+task populateNodeModules(type: Copy, dependsOn: compileKotlin2Js) {
+    from compileKotlin2Js.destinationDir
 
-  fun start(port: Int)
+    configurations.testCompile.each {
+        from zipTree(it.absolutePath).matching { include '*.js' }
+    }
 
-  fun stop()
+    into "${buildDir}/node_modules"
+}
 
-  fun assertRequest(
-      method: String,
-      url: String,
-      headers: Map<String, String>?,
-      body: String?
-  ): Deferred<Unit>
+node {
+    version = "$node_version"
+    download = true
 }
