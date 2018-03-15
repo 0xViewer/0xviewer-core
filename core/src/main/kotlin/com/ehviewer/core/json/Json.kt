@@ -21,6 +21,7 @@ import com.ehviewer.core.PublicAPI
 /**
  * The father of [JsonObject] and [JsonArray].
  */
+@PublicAPI
 sealed class Json
 
 /**
