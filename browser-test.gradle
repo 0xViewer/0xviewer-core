@@ -17,7 +17,7 @@
 apply from: rootProject.file('js-test.gradle')
 
 task installMochaHeadlessChrome(type: YarnTask) {
-    args = ['add', 'mocha-headless-chrome@1.8.2', '-D']
+    args = ['add', "mocha@$mocha_version", "mocha-headless-chrome@$mocha_headless_chrome_version", '-D']
 }
 
 task copyBrowserTestHtml(type: Copy) {
