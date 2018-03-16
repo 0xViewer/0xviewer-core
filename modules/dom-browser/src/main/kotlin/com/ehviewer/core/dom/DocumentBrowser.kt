@@ -22,7 +22,7 @@ import org.w3c.dom.get
 
 class DocumentBrowser(private val document: org.w3c.dom.Document) : Document() {
 
-  override val rootElement: Element = ElementBrowser(document.documentElement!!.lastElementChild!!.firstElementChild!!)
+  override val rootElement: Element = ElementBrowser(document.documentElement!!)
 
   private inline fun NodeList.forEach(action: (Node) -> Unit) {
     for (i in 0 until length) {
