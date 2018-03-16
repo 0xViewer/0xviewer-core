@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-package com.ehviewer.core
+apply plugin: 'kotlin-platform-jvm'
 
-import com.ehviewer.core.dom.DocumentFactory
-import com.ehviewer.core.json.JsonFactory
-import kotlin.properties.Delegates
+dependencies {
+    expectedBy project(":modules:dom-test")
+    compile project(":core-jvm")
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
+    compile "org.jsoup:jsoup:$jsoup_version"
+    compile project(":test-jvm")
+    testCompile "junit:junit:$junit_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+}
 
-object EhvCore {
-
-  // TODO Should only be assigned once
-  var jsonFactory by Delegates.notNull<JsonFactory>()
-
-  var documentFactory by Delegates.notNull<DocumentFactory>()
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }

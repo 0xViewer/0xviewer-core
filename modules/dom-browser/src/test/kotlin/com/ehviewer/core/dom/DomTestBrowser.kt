@@ -14,16 +14,6 @@
  * limitations under the License.
  */
 
-package com.ehviewer.core
+package com.ehviewer.core.dom
 
-import com.ehviewer.core.dom.DocumentFactory
-import com.ehviewer.core.json.JsonFactory
-import kotlin.properties.Delegates
-
-object EhvCore {
-
-  // TODO Should only be assigned once
-  var jsonFactory by Delegates.notNull<JsonFactory>()
-
-  var documentFactory by Delegates.notNull<DocumentFactory>()
-}
+actual fun newDocumentFactory(): DocumentFactory = DocumentFactoryBrowser()

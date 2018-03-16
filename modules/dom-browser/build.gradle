@@ -1,0 +1,53 @@
+/*
+ * Copyright 2018 Hippo Seven
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+apply plugin: 'kotlin-platform-js'
+
+dependencies {
+    expectedBy project(":modules:dom-test")
+    compile project(":core-js")
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$kotlinx_coroutines_version"
+    compile project(":test-js")
+    testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
+
+[compileKotlin2Js, compileTestKotlin2Js]*.configure {
+    kotlinOptions.metaInfo = true
+    kotlinOptions.moduleKind = 'umd'
+}
+
+project.ext {
+    nodeDependencies = []
+    nodeDevDependencies = []
+    browserScripts = [
+            'node_modules/kotlin.js',
+            'node_modules/kotlinx-coroutines-core-js.js',
+            'node_modules/kotlin-test.js',
+            'node_modules/core-js.js',
+            'node_modules/test-js.js',
+            'node_modules/dom-browser.js',
+            'classes/kotlin/test/dom-browser_test.js',
+    ]
+}
+
+apply from: rootProject.file('browser-test.gradle')

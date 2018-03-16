@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package com.ehviewer.core
+apply plugin: 'kotlin-platform-common'
 
-import com.ehviewer.core.dom.DocumentFactory
-import com.ehviewer.core.json.JsonFactory
-import kotlin.properties.Delegates
+dependencies {
+    compile project(':core')
+    compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$kotlinx_coroutines_version"
+    testCompile project(':test')
+    testCompile "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
+}
 
-object EhvCore {
-
-  // TODO Should only be assigned once
-  var jsonFactory by Delegates.notNull<JsonFactory>()
-
-  var documentFactory by Delegates.notNull<DocumentFactory>()
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }

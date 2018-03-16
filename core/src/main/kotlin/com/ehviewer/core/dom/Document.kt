@@ -14,16 +14,26 @@
  * limitations under the License.
  */
 
-package com.ehviewer.core
+package com.ehviewer.core.dom
 
-import com.ehviewer.core.dom.DocumentFactory
-import com.ehviewer.core.json.JsonFactory
-import kotlin.properties.Delegates
+import com.ehviewer.core.PublicAPI
 
-object EhvCore {
+/**
+ * A HTML Document.
+ */
+@PublicAPI
+abstract class Document {
 
-  // TODO Should only be assigned once
-  var jsonFactory by Delegates.notNull<JsonFactory>()
+  /**
+   * Returns the root element of this document.
+   * The tag name and attributes of the element are uncertain.
+   */
+  @PublicAPI
+  abstract val rootElement: Element
 
-  var documentFactory by Delegates.notNull<DocumentFactory>()
+  /**
+   * Find elements that match the [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
+   */
+  @PublicAPI
+  abstract fun select(cssSelector: String): List<Element>
 }

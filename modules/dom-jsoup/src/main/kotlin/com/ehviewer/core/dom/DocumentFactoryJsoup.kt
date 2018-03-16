@@ -14,16 +14,11 @@
  * limitations under the License.
  */
 
-package com.ehviewer.core
+package com.ehviewer.core.dom
 
-import com.ehviewer.core.dom.DocumentFactory
-import com.ehviewer.core.json.JsonFactory
-import kotlin.properties.Delegates
+import org.jsoup.Jsoup
 
-object EhvCore {
+class DocumentFactoryJsoup : DocumentFactory() {
 
-  // TODO Should only be assigned once
-  var jsonFactory by Delegates.notNull<JsonFactory>()
-
-  var documentFactory by Delegates.notNull<DocumentFactory>()
+  override fun newDocument(html: String): Document = DocumentJsoup(Jsoup.parse(html))
 }

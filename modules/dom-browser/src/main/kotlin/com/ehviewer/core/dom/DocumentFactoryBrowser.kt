@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package com.ehviewer.core
+package com.ehviewer.core.dom
 
-import com.ehviewer.core.dom.DocumentFactory
-import com.ehviewer.core.json.JsonFactory
-import kotlin.properties.Delegates
+import org.w3c.dom.parsing.DOMParser
 
-object EhvCore {
+class DocumentFactoryBrowser : DocumentFactory() {
 
-  // TODO Should only be assigned once
-  var jsonFactory by Delegates.notNull<JsonFactory>()
-
-  var documentFactory by Delegates.notNull<DocumentFactory>()
+  override fun newDocument(html: String): Document =
+      DocumentBrowser(DOMParser().parseFromString(html, "text/html"))
 }

@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.ehviewer.core
+package com.ehviewer.core.dom
 
-import com.ehviewer.core.dom.DocumentFactory
-import com.ehviewer.core.json.JsonFactory
-import kotlin.properties.Delegates
+import com.ehviewer.core.PublicAPI
 
-object EhvCore {
+@PublicAPI
+abstract class DocumentFactory {
 
-  // TODO Should only be assigned once
-  var jsonFactory by Delegates.notNull<JsonFactory>()
-
-  var documentFactory by Delegates.notNull<DocumentFactory>()
+  /**
+   * Creates a new [Document] from the html text.
+   */
+  @PublicAPI
+  abstract fun newDocument(html: String): Document
 }

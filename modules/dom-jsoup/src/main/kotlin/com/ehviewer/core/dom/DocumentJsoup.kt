@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package com.ehviewer.core
+package com.ehviewer.core.dom
 
-import com.ehviewer.core.dom.DocumentFactory
-import com.ehviewer.core.json.JsonFactory
-import kotlin.properties.Delegates
+class DocumentJsoup(private val document: org.jsoup.nodes.Document) : Document() {
 
-object EhvCore {
+  override val rootElement: Element = ElementJsoup(document)
 
-  // TODO Should only be assigned once
-  var jsonFactory by Delegates.notNull<JsonFactory>()
-
-  var documentFactory by Delegates.notNull<DocumentFactory>()
+  override fun select(cssSelector: String): List<Element> =
+      document.select(cssSelector).map { ElementJsoup(it) }
 }

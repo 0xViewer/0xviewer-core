@@ -22,6 +22,10 @@ include ':modules:json-minimal-json'
 include ':modules:json-js'
 include ':modules:json-test'
 
+include ':modules:dom-jsoup'
+include ':modules:dom-browser'
+include ':modules:dom-test'
+
 include ':test'
 include ':test-jvm'
 include ':test-js'
