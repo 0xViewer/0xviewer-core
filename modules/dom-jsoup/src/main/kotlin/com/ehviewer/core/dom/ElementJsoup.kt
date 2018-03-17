@@ -37,4 +37,7 @@ class ElementJsoup(private val element: org.jsoup.nodes.Element): Element() {
   override fun attr(key: String): String = element.attr(key)
 
   override fun hasAttr(key: String): Boolean = element.hasAttr(key)
+
+  override fun select(cssSelector: String): List<Element> =
+      element.select(cssSelector).map { ElementJsoup(it) }
 }

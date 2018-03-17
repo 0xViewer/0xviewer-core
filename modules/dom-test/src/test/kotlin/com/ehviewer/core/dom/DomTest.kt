@@ -25,73 +25,200 @@ class DomTest {
 
   private val factory = newDocumentFactory()
 
-  @Test
-  fun testSelectTag() {
-    var document = factory.newDocument("<div>Hello <div>world</div></div>")
-    assertEquals(2, document.select("div").size)
+  private val documentSelector: (String, String) -> List<Element> =
+      { html, query -> factory.newDocument(html).select(query)}
 
-    document = factory.newDocument("<div>Hello <a>world</a></div>")
-    assertEquals(1, document.select("div").size)
+  private val elementSelector: (String, String) -> List<Element> =
+      { html, query -> factory.newDocument(html).rootElement.select(query)}
 
-    document = factory.newDocument("<div>Hello <a>world</a></div>")
-    assertEquals(1, document.select("a").size)
-
-    document = factory.newDocument("<div>Hello <a>world</a></div>")
-    assertEquals(0, document.select("p").size)
+  private fun testSelectTag(selector: (String, String) -> List<Element>) {
+    assertEquals(2, selector(
+        "<div>Hello <div>world</div></div>",
+        "div"
+    ).size)
+    assertEquals(1, selector(
+        "<div>Hello <a>world</a></div>",
+        "div"
+    ).size)
+    assertEquals(1, selector(
+        "<div>Hello <a>world</a></div>",
+        "a"
+    ).size)
+    assertEquals(0, selector(
+        "<div>Hello <a>world</a></div>",
+        "p"
+    ).size)
+    assertEquals(1, selector(
+        "<DIV>Hello <a>world</a></DIV>",
+        "div"
+    ).size)
+    assertEquals(1, selector(
+        "<div>Hello <a>world</a></div>",
+        "DIV"
+    ).size)
   }
 
   @Test
-  fun testSelectClass() {
-    val document = factory.newDocument("<div class=\"column\">Hello <div class=\"column wrapper\">world</div></div>")
-    assertEquals(2, document.select(".column").size)
-    assertEquals(1, document.select(".wrapper").size)
+  fun testDocumentSelectTag() = testSelectTag(documentSelector)
+
+  @Test
+  fun testElementSelectTag() = testSelectTag(elementSelector)
+
+  private fun testSelectClass(selector: (String, String) -> List<Element>) {
+    assertEquals(2, selector(
+        "<div class=\"column\">Hello <div class=\"column wrapper\">world</div></div>",
+        ".column"
+    ).size)
+    assertEquals(1, selector(
+        "<div class=\"column\">Hello <div class=\"column wrapper\">world</div></div>",
+        ".wrapper"
+    ).size)
+    assertEquals(1, selector(
+        "<div class=\"column\">Hello <div class=\"column wrapper\">world</div></div>",
+        ".column.wrapper"
+    ).size)
+    assertEquals(1, selector(
+        "<div class=\"column\">Hello <div class=\"column wrapper\">world</div></div>",
+        ".wrapper.column"
+    ).size)
   }
 
   @Test
-  fun testSelectId() {
-    val document = factory.newDocument("<div id=\"greet\">Hello <div id=\"name\">world</div></div>")
-    assertEquals(1, document.select("#name").size)
-    assertEquals(0, document.select("#greeting").size)
+  fun testDocumentSelectClass() = testSelectClass(documentSelector)
+
+  @Test
+  fun testElementSelectClass() = testSelectClass(elementSelector)
+
+  private fun testSelectId(selector: (String, String) -> List<Element>) {
+    assertEquals(1, selector(
+        "<div id=\"greet\">Hello <div id=\"name\">world</div></div>",
+        "#name"
+    ).size)
+    assertEquals(0, selector(
+        "<div id=\"greet\">Hello <div id=\"name\">world</div></div>",
+        "#greeting"
+    ).size)
   }
 
   @Test
-  fun testSelectAttribute() {
-    val document = factory.newDocument("<div attr1=\"value1\">Hello <div attr1=\"value100\">world</div></div>")
-    assertEquals(2, document.select("[attr1]").size)
-    assertEquals(1, document.select("[attr1=value1]").size)
-    assertEquals(0, document.select("[attr2]").size)
+  fun testDocumentSelectId() = testSelectId(documentSelector)
+
+  @Test
+  fun testElementSelectId() = testSelectId(elementSelector)
+
+  private fun testSelectAttribute(selector: (String, String) -> List<Element>) {
+    assertEquals(2, selector(
+        "<div attr1=\"value1\">Hello <div attr1=\"value100\">world</div></div>",
+        "[attr1]"
+    ).size)
+    assertEquals(1, selector(
+        "<div attr1=\"value1\">Hello <div attr1=\"value100\">world</div></div>",
+        "[attr1=value1]"
+    ).size)
+    assertEquals(0, selector(
+        "<div attr1=\"value1\">Hello <div attr1=\"value100\">world</div></div>",
+        "[attr2]"
+    ).size)
   }
 
   @Test
-  fun testSelectAdjacentSibling() {
-    val document = factory.newDocument("<div>Hello</div><p>!</p><div>world</div>")
-    assertEquals(1, document.select("div + p + div").size)
-    assertEquals(1, document.select("div + p").size)
-    assertEquals(0, document.select("div + div").size)
+  fun testDocumentSelectAttribute() = testSelectAttribute(documentSelector)
+
+  @Test
+  fun testElementSelectAttribute() = testSelectAttribute(elementSelector)
+
+  private fun testSelectAdjacentSibling(selector: (String, String) -> List<Element>) {
+    assertEquals(1, selector(
+        "<div>Hello</div><p>!</p><div>world</div>",
+        "div + p + div"
+    ).size)
+    assertEquals(1, selector(
+        "<div>Hello</div><p>!</p><div>world</div>",
+        "div + p"
+    ).size)
+    assertEquals(0, selector(
+        "<div>Hello</div><p>!</p><div>world</div>",
+        "div + div"
+    ).size)
   }
 
   @Test
-  fun testSelectGeneralSibling() {
-    val document = factory.newDocument("<div>Hello<a>?</a></div><p>!</p><div>world</div>")
-    assertEquals(1, document.select("div ~ div").size)
-    assertEquals(1, document.select("div ~ p").size)
-    assertEquals(0, document.select("div ~ a").size)
+  fun testDocumentSelectAdjacentSibling() = testSelectAdjacentSibling(documentSelector)
+
+  @Test
+  fun testElementSelectAdjacentSibling() = testSelectAdjacentSibling(elementSelector)
+
+  private fun testSelectGeneralSibling(selector: (String, String) -> List<Element>) {
+    assertEquals(1, selector(
+        "<div>Hello<a>?</a></div><p>!</p><div>world</div>",
+        "div ~ div"
+    ).size)
+    assertEquals(1, selector(
+        "<div>Hello<a>?</a></div><p>!</p><div>world</div>",
+        "div ~ p"
+    ).size)
+    assertEquals(0, selector(
+        "<div>Hello<a>?</a></div><p>!</p><div>world</div>",
+        "div ~ a"
+    ).size)
   }
 
   @Test
-  fun testSelectChildCombinator() {
-    val document = factory.newDocument("<div>Hello<a>?</a></div><div>world</div>")
-    assertEquals(1, document.select("div > a").size)
-    assertEquals(0, document.select("div > div").size)
+  fun testDocumentSelectGeneralSibling() = testSelectGeneralSibling(documentSelector)
+
+  @Test
+  fun testElementSelectGeneralSibling() = testSelectGeneralSibling(elementSelector)
+
+  private fun testSelectChildCombinator(selector: (String, String) -> List<Element>) {
+    assertEquals(1, selector(
+        "<div>Hello<a>?</a></div><div>world</div>",
+        "div > a"
+    ).size)
+    assertEquals(0, selector(
+        "<div>Hello<a>?</a></div><div>world</div>",
+        "div > div"
+    ).size)
   }
 
   @Test
-  fun testSelectDescendantCombinator() {
-    val document = factory.newDocument("<div>Hello <div>world <a>!</a></div></div><p>!</p>")
-    assertEquals(1, document.select("div a").size)
-    assertEquals(1, document.select("div div").size)
-    assertEquals(0, document.select("div p").size)
+  fun testDocumentSelectChildCombinator() = testSelectChildCombinator(documentSelector)
+
+  @Test
+  fun testElementSelectChildCombinator() = testSelectChildCombinator(elementSelector)
+
+  private fun testSelectDescendantCombinator(selector: (String, String) -> List<Element>) {
+    assertEquals(1, selector(
+        "<div>Hello <div>world <a>!</a></div></div><p>!</p>",
+        "div a"
+    ).size)
+    assertEquals(1, selector(
+        "<div>Hello <div>world <a>!</a></div></div><p>!</p>",
+        "div div"
+    ).size)
+    assertEquals(1, selector(
+        "<div>Hello <div>world <a>!</a></div></div><p>!</p>",
+        "div div"
+    ).size)
   }
+
+  @Test
+  fun testDocumentSelectDescendantCombinator() = testSelectDescendantCombinator(documentSelector)
+
+  @Test
+  fun testElementSelectDescendantCombinator() = testSelectDescendantCombinator(elementSelector)
+
+  private fun testSelectMix(selector: (String, String) -> List<Element>) {
+    assertEquals(1, selector(
+        "<div class=\"cl1 cl2 cl3\" key=\"value\">Hello <div>world <a>!</a></div></div><p>!</p>",
+        "div.cl3.cl1[key=value] > div > a"
+    ).size)
+  }
+
+  @Test
+  fun testDocumentSelectMix() = testSelectMix(documentSelector)
+
+  @Test
+  fun testElementSelectMix() = testSelectMix(elementSelector)
 
   @Test
   fun testElementTagName() {

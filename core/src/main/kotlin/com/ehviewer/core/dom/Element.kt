@@ -45,16 +45,19 @@ abstract class Element {
   /**
    * Returns the element's inner HTML.
    */
+  @PublicAPI
   abstract val innerHtml: String
 
   /**
    * Returns the element's outer HTML.
    */
+  @PublicAPI
   abstract val outerHtml: String
 
   /**
    * Returns the element's text.
    */
+  @PublicAPI
   abstract val text: String
 
   /**
@@ -69,4 +72,10 @@ abstract class Element {
    */
   @PublicAPI
   abstract fun hasAttr(key: String): Boolean
+
+  /**
+   * Find child elements that match the [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
+   */
+  @PublicAPI
+  abstract fun select(cssSelector: String): List<Element>
 }

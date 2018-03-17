@@ -16,6 +16,7 @@
 
 package com.ehviewer.core.dom
 
+import org.w3c.dom.Node
 import org.w3c.dom.asList
 
 class ElementBrowser(private val element: org.w3c.dom.Element): Element() {
@@ -39,4 +40,15 @@ class ElementBrowser(private val element: org.w3c.dom.Element): Element() {
   override fun attr(key: String): String = element.getAttribute(key) ?: ""
 
   override fun hasAttr(key: String): Boolean = element.hasAttribute(key)
+
+  override fun select(cssSelector: String): List<Element> {
+    val nodes = element.querySelectorAll(cssSelector)
+    val result = ArrayList<Element>(nodes.length)
+    nodes.forEach {
+      if (it != null && it.nodeType == Node.ELEMENT_NODE) {
+        result.add(ElementBrowser(it.asDynamic())) // Avoid cast
+      }
+    }
+    return result
+  }
 }
