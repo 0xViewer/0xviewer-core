@@ -20,6 +20,7 @@ import com.ehviewer.core.PublicAPI
 
 /**
  * A HTML element.
+ * [equals] and [hashCode] are supported.
  */
 @PublicAPI
 abstract class Element {

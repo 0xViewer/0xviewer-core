@@ -53,4 +53,8 @@ class ElementBrowser(private val element: org.w3c.dom.Element): Element() {
     }
     return result
   }
+
+  override fun equals(other: Any?): Boolean = other is ElementBrowser && other.element == element
+
+  override fun hashCode(): Int = element.hashCode()
 }

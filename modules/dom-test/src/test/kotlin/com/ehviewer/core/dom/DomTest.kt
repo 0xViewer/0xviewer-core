@@ -319,4 +319,14 @@ class DomTest {
     assertEquals(null, element.parent)
     assertEquals("div", element.select("p")[0].parent?.tagName)
   }
+
+  @Test
+  fun testElementEqualsHashCode() {
+    val document = factory.newDocument("" +
+        "<div>Hello World</div>"
+    )
+    assertEquals(true, document.select("div")[0] == document.select("div")[0])
+    assertEquals(true, document.select("div")[0].hashCode() == document.select("div")[0].hashCode())
+    assertEquals(false, document.select("div")[0] === document.select("div")[0])
+  }
 }

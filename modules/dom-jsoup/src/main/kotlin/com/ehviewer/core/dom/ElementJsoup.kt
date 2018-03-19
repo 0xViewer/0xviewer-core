@@ -42,4 +42,8 @@ class ElementJsoup(private val element: org.jsoup.nodes.Element): Element() {
 
   override fun select(cssSelector: String): List<Element> =
       element.select(cssSelector).map { ElementJsoup(it) }
+
+  override fun equals(other: Any?): Boolean = other is ElementJsoup && other.element == element
+
+  override fun hashCode(): Int = element.hashCode()
 }
