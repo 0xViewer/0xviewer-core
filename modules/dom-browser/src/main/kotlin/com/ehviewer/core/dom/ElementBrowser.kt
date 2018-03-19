@@ -21,12 +21,14 @@ import org.w3c.dom.asList
 
 class ElementBrowser(private val element: org.w3c.dom.Element): Element() {
 
-  override val tagName: String = element.tagName.toLowerCase()
+  override val tagName: String
+    get() = element.tagName.toLowerCase()
 
   override val id: String
     get() = element.id
 
-  override val classNames: List<String> = element.classList.asList()
+  override val classNames: List<String>
+    get() = element.classList.asList()
 
   override val innerHtml: String
     get() = element.innerHTML
@@ -37,7 +39,8 @@ class ElementBrowser(private val element: org.w3c.dom.Element): Element() {
   override val text: String
     get() = element.textContent ?: ""
 
-  override val parent: Element? = element.parentElement?.let { ElementBrowser(it) }
+  override val parent: Element?
+    get() = element.parentElement?.let { ElementBrowser(it) }
 
   override fun attr(key: String): String = element.getAttribute(key) ?: ""
 

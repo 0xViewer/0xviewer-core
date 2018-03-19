@@ -18,12 +18,14 @@ package com.ehviewer.core.dom
 
 class ElementJsoup(private val element: org.jsoup.nodes.Element): Element() {
 
-  override val tagName: String = element.tagName().toLowerCase()
+  override val tagName: String
+    get() = element.tagName().toLowerCase()
 
   override val id: String
     get() = element.id()
 
-  override val classNames: List<String> = element.attr("class").split("\\s+".toRegex()).filter { it.isNotEmpty() }
+  override val classNames: List<String>
+    get() = element.attr("class").split("\\s+".toRegex()).filter { it.isNotEmpty() }
 
   override val innerHtml: String
     get() = element.html()
@@ -34,7 +36,8 @@ class ElementJsoup(private val element: org.jsoup.nodes.Element): Element() {
   override val text: String
     get() = element.wholeText()
 
-  override val parent: Element? = element.parent()?.let { ElementJsoup(it) }
+  override val parent: Element?
+    get() = element.parent()?.let { ElementJsoup(it) }
 
   override fun attr(key: String): String = element.attr(key)
 
