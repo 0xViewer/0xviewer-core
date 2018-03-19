@@ -17,19 +17,15 @@
 package com.ehviewer.core.dom
 
 import org.w3c.dom.Node
+import org.w3c.dom.asList
 
 class DocumentBrowser(private val document: org.w3c.dom.Document) : Document() {
 
   override val rootElement: Element = ElementBrowser(document.documentElement!!)
 
-  override fun select(cssSelector: String): List<Element> {
-    val nodes = document.querySelectorAll(cssSelector)
-    val result = ArrayList<Element>(nodes.length)
-    nodes.forEach {
-      if (it != null && it.nodeType == Node.ELEMENT_NODE) {
-        result.add(ElementBrowser(it.asDynamic())) // Avoid cast
-      }
-    }
-    return result
-  }
+  override fun select(cssSelector: String): List<Element> =
+      document.querySelectorAll(cssSelector).takeIf { it.length != 0 }?.asList()
+          ?.filter { it.nodeType == Node.ELEMENT_NODE }?.takeIf { it.isNotEmpty() }
+          ?.map { ElementBrowser(it.asDynamic()) } // Avoid cast
+          ?: emptyList()
 }

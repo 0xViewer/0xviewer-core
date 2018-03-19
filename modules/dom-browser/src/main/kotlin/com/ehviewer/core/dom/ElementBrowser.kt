@@ -49,16 +49,11 @@ class ElementBrowser(private val element: org.w3c.dom.Element): Element() {
 
   override fun hasAttr(key: String): Boolean = element.hasAttribute(key)
 
-  override fun select(cssSelector: String): List<Element> {
-    val nodes = element.querySelectorAll(cssSelector)
-    val result = ArrayList<Element>(nodes.length)
-    nodes.forEach {
-      if (it != null && it.nodeType == Node.ELEMENT_NODE) {
-        result.add(ElementBrowser(it.asDynamic())) // Avoid cast
-      }
-    }
-    return result
-  }
+  override fun select(cssSelector: String): List<Element> =
+      element.querySelectorAll(cssSelector).takeIf { it.length != 0 }?.asList()
+          ?.filter { it.nodeType == Node.ELEMENT_NODE }?.takeIf { it.isNotEmpty() }
+          ?.map { ElementBrowser(it.asDynamic()) } // Avoid cast
+          ?: emptyList()
 
   override fun equals(other: Any?): Boolean = other is ElementBrowser && other.element == element
 
