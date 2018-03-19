@@ -27,7 +27,7 @@ sealed class Json
 /**
  * A modifiable set of name/value mappings.
  * [toString] returns a json-serialized text.
- * [equals] and [hashCode] is not supported.
+ * [equals] and [hashCode] are not supported.
  */
 @PublicAPI
 abstract class JsonObject : Json() {
@@ -108,7 +108,7 @@ abstract class JsonObject : Json() {
 /**
  * A dense indexed sequence of values.
  * [toString] returns a json-serialized text.
- * [equals] and [hashCode] is not supported.
+ * [equals] and [hashCode] are not supported.
  */
 @PublicAPI
 abstract class JsonArray : Json() {
