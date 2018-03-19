@@ -37,6 +37,8 @@ class ElementBrowser(private val element: org.w3c.dom.Element): Element() {
   override val text: String
     get() = element.textContent ?: ""
 
+  override val parent: Element? = element.parentElement?.let { ElementBrowser(it) }
+
   override fun attr(key: String): String = element.getAttribute(key) ?: ""
 
   override fun hasAttr(key: String): Boolean = element.hasAttribute(key)

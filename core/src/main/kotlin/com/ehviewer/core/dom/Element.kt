@@ -61,6 +61,12 @@ abstract class Element {
   abstract val text: String
 
   /**
+   * Returns the element's parent.
+   */
+  @PublicAPI
+  abstract val parent: Element?
+
+  /**
    * Returns an attribute's value by its key. The key is case insensitive.
    * An empty list if not present.
    */

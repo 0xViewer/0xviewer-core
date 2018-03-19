@@ -310,4 +310,13 @@ class DomTest {
     assertEquals("Hello    My    World", elements[0].text)
     assertEquals("", elements[1].text)
   }
+
+  @Test
+  fun testElementParent() {
+    val element = factory.newDocument("" +
+        "<div>Hello<p>My</p>World</div>"
+    ).rootElement
+    assertEquals(null, element.parent)
+    assertEquals("div", element.select("p")[0].parent?.tagName)
+  }
 }
