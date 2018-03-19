@@ -321,6 +321,18 @@ class DomTest {
   }
 
   @Test
+  fun testElementChildren() {
+    val document = factory.newDocument("" +
+        "<div>Hello<p>My</p><a>Little</a>World</div>"
+    )
+    val element = document.select("div")[0]
+    val children = element.children
+    assertEquals(2, children.size)
+    assertEquals("p", children[0].tagName)
+    assertEquals("a", children[1].tagName)
+  }
+
+  @Test
   fun testElementEqualsHashCode() {
     val document = factory.newDocument("" +
         "<div>Hello World</div>"

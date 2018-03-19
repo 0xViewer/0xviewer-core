@@ -68,6 +68,12 @@ abstract class Element {
   abstract val parent: Element?
 
   /**
+   * Returns the element's children.
+   */
+  @PublicAPI
+  abstract val children: List<Element>
+
+  /**
    * Returns an attribute's value by its key. The key is case insensitive.
    * An empty list if not present.
    */

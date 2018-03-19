@@ -42,6 +42,9 @@ class ElementBrowser(private val element: org.w3c.dom.Element): Element() {
   override val parent: Element?
     get() = element.parentElement?.let { ElementBrowser(it) }
 
+  override val children: List<Element>
+    get() = element.children.takeIf { it.length != 0 }?.asList()?.map { ElementBrowser(it) } ?: emptyList()
+
   override fun attr(key: String): String = element.getAttribute(key) ?: ""
 
   override fun hasAttr(key: String): Boolean = element.hasAttribute(key)
