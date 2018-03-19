@@ -333,6 +333,24 @@ class DomTest {
   }
 
   @Test
+  fun testElementNextSibling() {
+    val document = factory.newDocument("" +
+        "<div>Hello<p>My</p><a>Little</a>World</div>"
+    )
+    assertEquals("a", document.select("p")[0].nextSibling?.tagName)
+    assertEquals(null, document.select("a")[0].nextSibling?.tagName)
+  }
+
+  @Test
+  fun testElementPreviousSibling() {
+    val document = factory.newDocument("" +
+        "<div>Hello<p>My</p><a>Little</a>World</div>"
+    )
+    assertEquals(null, document.select("p")[0].previousSibling?.tagName)
+    assertEquals("p", document.select("a")[0].previousSibling?.tagName)
+  }
+
+  @Test
   fun testElementEqualsHashCode() {
     val document = factory.newDocument("" +
         "<div>Hello World</div>"

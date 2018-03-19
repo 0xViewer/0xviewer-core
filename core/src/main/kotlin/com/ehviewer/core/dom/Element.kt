@@ -74,6 +74,18 @@ abstract class Element {
   abstract val children: List<Element>
 
   /**
+   * Returns the next sibling element of this element.
+   */
+  @PublicAPI
+  abstract val nextSibling: Element?
+
+  /**
+   * Returns the previous sibling element of this element.
+   */
+  @PublicAPI
+  abstract val previousSibling: Element?
+
+  /**
    * Returns an attribute's value by its key. The key is case insensitive.
    * An empty list if not present.
    */

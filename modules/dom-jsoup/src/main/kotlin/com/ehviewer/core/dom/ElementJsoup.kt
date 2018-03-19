@@ -42,6 +42,12 @@ class ElementJsoup(private val element: org.jsoup.nodes.Element): Element() {
   override val children: List<Element>
     get() = element.children().takeIf { it.size != 0 }?.map { ElementJsoup(it) } ?: emptyList()
 
+  override val nextSibling: Element?
+    get() = element.nextElementSibling()?.let { ElementJsoup(it) }
+
+  override val previousSibling: Element?
+    get() = element.previousElementSibling()?.let { ElementJsoup(it) }
+
   override fun attr(key: String): String = element.attr(key)
 
   override fun hasAttr(key: String): Boolean = element.hasAttr(key)
