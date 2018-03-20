@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-apply from: rootProject.file('js-test.gradle')
+apply from: rootProject.file('test-js.gradle')
 
 task installNodeDependencies(type: YarnTask) {
     args = (['add'] << nodeDependencies).flatten()
