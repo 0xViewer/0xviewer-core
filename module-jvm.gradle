@@ -14,9 +14,19 @@
  * limitations under the License.
  */
 
-apply from: rootProject.file('module-jvm.gradle')
+apply plugin: 'kotlin-platform-jvm'
 
 dependencies {
-    expectedBy project(":modules:json-test")
-    compile "com.eclipsesource.minimal-json:minimal-json:$minimal_json_version"
+    compile project(":core-jvm")
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
+    compile project(":test-jvm")
+    testCompile "junit:junit:$junit_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
