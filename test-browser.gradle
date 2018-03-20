@@ -23,8 +23,8 @@ task installMochaHeadlessChrome(type: YarnTask) {
 task copyBrowserTestHtml(type: Copy) {
     from "$rootProject.projectDir"
     into "$buildDir"
-    include 'browser-test.html.template'
-    rename { file -> 'browser-test.html' }
+    include 'test-browser.html.template'
+    rename { file -> 'test-browser.html' }
     expand(scripts: browserScripts)
     // UP-TO-DATE checker doesn't work fine here, force this task to run
     outputs.upToDateWhen { false }
@@ -33,7 +33,7 @@ task copyBrowserTestHtml(type: Copy) {
 // TODO ANSI color doesn't work in idea run-test console, but it should work.
 task runBrowserTest(type: NodeTask, dependsOn: [compileTestKotlin2Js, populateNodeModules, installMochaHeadlessChrome, copyBrowserTestHtml]) {
     script = file('node_modules/mocha-headless-chrome/bin/start')
-    args = ['-f', 'build/browser-test.html']
+    args = ['-f', 'build/test-browser.html']
 }
 
 test.dependsOn runBrowserTest

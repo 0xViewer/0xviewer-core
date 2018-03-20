@@ -34,5 +34,5 @@ project.ext {
     ]
 }
 
-apply from: rootProject.file('browser-test.gradle')
-apply from: rootProject.file('nodejs-test.gradle')
+apply from: rootProject.file('test-browser.gradle')
+apply from: rootProject.file('test-node.gradle')

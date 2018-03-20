@@ -39,4 +39,4 @@ project.ext {
     nodeDevDependencies = []
 }
 
-apply from: rootProject.file('nodejs-test.gradle')
+apply from: rootProject.file('test-node.gradle')
