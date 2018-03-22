@@ -1,3 +1,3 @@
 # EhViewer-Core
 
-Business logic for EhViewer.
+The business logic of EhViewer.
