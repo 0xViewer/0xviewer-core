@@ -25,6 +25,7 @@ project.ext {
     nodeDevDependencies = []
     browserScripts = [
             'node_modules/kotlin.js',
+            'node_modules/kotlinx-coroutines-core.js',
             'node_modules/kotlinx-coroutines-core-js.js',
             'node_modules/kotlin-test.js',
             'node_modules/core-js.js',
