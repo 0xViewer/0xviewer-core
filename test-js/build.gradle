@@ -37,6 +37,15 @@ kotlin {
 project.ext {
     nodeDependencies = []
     nodeDevDependencies = []
+    browserScripts = [
+            'node_modules/kotlin.js',
+            'node_modules/kotlinx-coroutines-core.js',
+            'node_modules/kotlinx-coroutines-core-js.js',
+            'node_modules/kotlin-test.js',
+            'node_modules/test-js.js',
+            'classes/kotlin/test/test-js_test.js',
+    ]
 }
 
+apply from: rootProject.file('test-browser.gradle')
 apply from: rootProject.file('test-node.gradle')
