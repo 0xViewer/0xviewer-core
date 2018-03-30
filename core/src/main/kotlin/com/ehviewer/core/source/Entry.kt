@@ -14,12 +14,36 @@
  * limitations under the License.
  */
 
-package com.ehviewer.core
+package com.ehviewer.core.source
 
-@Target(
-    AnnotationTarget.CLASS,
-    AnnotationTarget.CONSTRUCTOR,
-    AnnotationTarget.FUNCTION,
-    AnnotationTarget.PROPERTY
-)
-annotation class PublicAPI
+import com.ehviewer.core.PublicAPI
+
+/**
+ * The abstract of entries got from [sections][Section].
+ */
+@PublicAPI
+sealed class Entry
+
+/**
+ * A image entry.
+ */
+@PublicAPI
+abstract class Image : Entry()
+
+/**
+ * A gallery entry. A gallery is a set of images.
+ */
+@PublicAPI
+abstract class Gallery : Entry()
+
+/**
+ * A comic entry. A comic is a set of galleries.
+ */
+@PublicAPI
+abstract class Comic : Entry()
+
+/**
+ * A sector entry. Instead of an actual content, sector provides a section.
+ */
+@PublicAPI
+abstract class Sector : Entry()
