@@ -37,5 +37,7 @@ task populateNodeModules(type: Copy, dependsOn: compileKotlin2Js) {
 
 node {
     version = "$node_version"
+    workDir = file("${rootProject.projectDir}/.gradle/nodejs")
+    yarnWorkDir = file("${rootProject.projectDir}/.gradle/yarn")
     download = true
 }
