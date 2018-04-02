@@ -1,3 +1,3 @@
-# EhViewer-Core
+# 0xViewer-Core
 
-The business logic of EhViewer.
+The business logic of 0xViewer.
