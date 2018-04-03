@@ -16,8 +16,58 @@
 
 apply from: rootProject.file('test-js.gradle')
 
+apply plugin: 'de.undercouch.download'
+
+ext.chromiumPlatform = {
+    String name = System.getProperty('os.name').toLowerCase()
+    if (name.contains('linux') || name.contains('freebsd')) {
+        return 'linux'
+    } else if (name.contains('mac')) {
+        return 'mac'
+    } else if (name.contains('windows')) {
+        if (System.getProperty('os.arch').contains('64')) {
+            return 'win64'
+        } else {
+            return 'win32'
+        }
+    } else {
+        throw new IllegalStateException("Unsupported platform: ${property('os.name')}")
+    }
+}
+
+ext.chromiumUrl = [
+        'linux': "https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64/${chromium_revision}/chrome-linux.zip",
+        'mac': "https://storage.googleapis.com/chromium-browser-snapshots/Mac/${chromium_revision}/chrome-mac.zip",
+        'win32': "https://storage.googleapis.com/chromium-browser-snapshots/Win/${chromium_revision}/chrome-win32.zip",
+        'win64': "https://storage.googleapis.com/chromium-browser-snapshots/Win_x64/${chromium_revision}/chrome-win32.zip",
+][chromiumPlatform()]
+
+ext.chromiumName = "chromium-${chromium_revision}-${chromiumPlatform()}"
+
+ext.chromiumZip = "${rootProject.projectDir}/.gradle/chromium/${chromiumName}.zip"
+
+ext.chromiumFolder = "${rootProject.projectDir}/.gradle/chromium/${chromiumName}"
+
+ext.chromiumPath = [
+        'linux': "${chromiumFolder}/chrome-linux/chrome",
+        'mac': "${chromiumFolder}/chrome-mac/Chromium.app/Contents/MacOS/Chromium",
+        'win32': "${chromiumFolder}/chrome-win32/chrome.exe",
+        'win64': "${chromiumFolder}/chrome-win32/chrome.exe",
+][chromiumPlatform()]
+
+task downloadChromium(type: Download) {
+    src chromiumUrl
+    dest file(chromiumZip)
+    overwrite false
+}
+
+task installChromium(type: Copy, dependsOn: downloadChromium) {
+    from zipTree(chromiumZip)
+    into file(chromiumFolder)
+}
+
 task installMochaHeadlessChrome(type: YarnTask) {
-    args = ['add', "mocha@$mocha_version", "mocha-headless-chrome@$mocha_headless_chrome_version", '-D']
+    args = ['add', "mocha@$mocha_version", "mocha-headless-chrome@$mocha_headless_chrome_version", "puppeteer@${puppeteer_version}", '-D']
 }
 
 task copyBrowserTestHtml(type: Copy) {
@@ -31,9 +81,9 @@ task copyBrowserTestHtml(type: Copy) {
 }
 
 // TODO ANSI color doesn't work in idea run-test console, but it should work.
-task runBrowserTest(type: NodeTask, dependsOn: [compileTestKotlin2Js, populateNodeModules, installMochaHeadlessChrome, copyBrowserTestHtml]) {
+task runBrowserTest(type: NodeTask, dependsOn: [compileTestKotlin2Js, populateNodeModules, installChromium, installMochaHeadlessChrome, copyBrowserTestHtml]) {
     script = file('node_modules/mocha-headless-chrome/bin/start')
-    args = ['-f', 'build/test-browser.html']
+    args = ['-f', 'build/test-browser.html', '-e', "${chromiumPath}"]
 }
 
 test.dependsOn runBrowserTest

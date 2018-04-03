@@ -26,6 +26,7 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_plugin_version"
+        classpath "de.undercouch:gradle-download-task:$gradle_download_task_version"
     }
 }
 
