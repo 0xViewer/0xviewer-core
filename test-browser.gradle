@@ -66,8 +66,12 @@ task installChromium(type: Copy, dependsOn: downloadChromium) {
     into file(chromiumFolder)
 }
 
-task installMochaHeadlessChrome(type: YarnTask) {
-    args = ['add', "mocha@$mocha_version", "mocha-headless-chrome@$mocha_headless_chrome_version", "puppeteer@${puppeteer_version}", '-D']
+task installPuppeteer(type: YarnTask) {
+    args = ['add', "puppeteer@${puppeteer_version}", '-D', '--ignore-scripts']
+}
+
+task installMochaHeadlessChrome(type: YarnTask, dependsOn: installPuppeteer) {
+    args = ['add', "mocha@$mocha_version", "mocha-headless-chrome@$mocha_headless_chrome_version", '-D']
 }
 
 task copyBrowserTestHtml(type: Copy) {
