@@ -20,6 +20,7 @@ dependencies {
     expectedBy project(":core")
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$kotlinx_coroutines_version"
+    testCompile project(":test-js")
     testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
 }
 
@@ -33,3 +34,20 @@ kotlin {
     kotlinOptions.metaInfo = true
     kotlinOptions.moduleKind = 'umd'
 }
+
+project.ext {
+    nodeDependencies = []
+    nodeDevDependencies = []
+    browserScripts = [
+            'node_modules/kotlin.js',
+            'node_modules/kotlinx-coroutines-core.js',
+            'node_modules/kotlinx-coroutines-core-js.js',
+            'node_modules/kotlin-test.js',
+            'node_modules/test-js.js',
+            'node_modules/core-js.js',
+            'classes/kotlin/test/core-js_test.js',
+    ]
+}
+
+apply from: rootProject.file('test-browser.gradle')
+apply from: rootProject.file('test-node.gradle')
