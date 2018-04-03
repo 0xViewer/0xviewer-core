@@ -18,12 +18,11 @@ package com.oxviewer.core
 
 import com.oxviewer.core.dom.DocumentFactory
 import com.oxviewer.core.json.JsonFactory
-import kotlin.properties.Delegates
+import com.oxviewer.core.util.WriteOnceProperty
 
 object OxvCore {
 
-  // TODO Should only be assigned once
-  var jsonFactory by Delegates.notNull<JsonFactory>()
+  var jsonFactory by WriteOnceProperty<JsonFactory>()
 
-  var documentFactory by Delegates.notNull<DocumentFactory>()
+  var documentFactory by WriteOnceProperty<DocumentFactory>()
 }
