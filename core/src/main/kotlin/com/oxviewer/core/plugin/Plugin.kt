@@ -20,13 +20,10 @@ import com.oxviewer.core.PublicAPI
 import com.oxviewer.core.source.Source
 
 @PublicAPI
-sealed class Plugin @PublicAPI constructor()
-
-@PublicAPI
-abstract class SourcePlugin @PublicAPI constructor() : Plugin() {
+abstract class Plugin @PublicAPI constructor() {
 
   @PublicAPI
-  abstract fun setupSources(Sources: MutableList<Source>)
+  abstract fun setupSources(sources: MutableList<Source>)
 
   @PublicAPI
   fun invalidateSources() {

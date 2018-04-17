@@ -16,12 +16,19 @@
 
 package com.oxviewer.core.plugin
 
+import com.oxviewer.core.UI
+import com.oxviewer.core.util.toUnit
 import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.experimental.launch
 
 /**
  * The Plugin manager.
  */
 abstract class PluginMan {
+
+  private val listeners = mutableListOf<Listener>()
+
+  abstract fun initialize(): Deferred<Unit>
 
   /**
    * Installs a plugin. This method is non-blocking.
@@ -33,7 +40,7 @@ abstract class PluginMan {
    * @see Listener.onInstallSuccess
    * @see Listener.onInstallFailure
    */
-  abstract fun install(info: PluginInfo): Deferred<Plugin>
+  abstract fun install(info: PluginInfo): Deferred<PluginState>
 
   /**
    * Uninstalls a plugin. This method is non-blocking.
@@ -47,43 +54,72 @@ abstract class PluginMan {
   abstract fun uninstall(plugin: Plugin): Deferred<Unit>
 
   /**
+   * Returns all installed plugins. The order of the list is undefined.
+   */
+  abstract fun getAllPluginStates(): List<PluginState>
+
+  /**
+   * Returns the plugin with the same name and uploader.
+   */
+  abstract fun getPluginState(name: String, uploader: String): PluginState?
+
+  /**
    * Registers a listener to listen all events.
    *
    * @see unregisterListener
    */
-  abstract fun registerListener(listener: Listener)
+  fun registerListener(listener: Listener) {
+    listeners.add(listener)
+  }
 
   /**
    * Unregisters the listener.
    *
    * @see registerListener
    */
-  abstract fun unregisterListener(listener: Listener)
+  fun unregisterListener(listener: Listener) {
+    listeners.remove(listener)
+  }
 
-  /**
-   * Returns all installed plugins. The order of the list is undefined.
-   */
-  abstract fun getAllPlugins(): List<Plugin>
+  private inline fun notifyListener(crossinline action: Listener.() -> Unit): Unit = launch(UI) {
+    listeners.toList().forEach { if (it in listeners) it.action() }
+  }.toUnit()
 
-  /**
-   * Returns the plugin with the same name and uploader.
-   */
-  abstract fun getPlugin(name: String, uploader: String): Plugin
+  protected fun notifyInstallStart(info: PluginInfo): Unit =
+      notifyListener { onInstallStart(info) }
+
+  protected fun notifyInstallProgress(info: PluginInfo, progress: Float): Unit =
+      notifyListener { onInstallProgress(info, progress) }
+
+  protected fun notifyInstallSuccess(info: PluginInfo, state: PluginState): Unit =
+      notifyListener { onInstallSuccess(info, state) }
+
+  protected fun notifyInstallFailure(info: PluginInfo, error: Throwable): Unit =
+      notifyListener { onInstallFailure(info, error) }
+
+  protected fun notifyUninstallStart(plugin: Plugin): Unit =
+      notifyListener { onUninstallStart(plugin) }
+
+  protected fun notifyUninstallSuccess(info: PluginInfo): Unit =
+      notifyListener { onUninstallSuccess(info) }
+
+  protected fun notifyUninstallFailure(info: PluginInfo, error: Throwable): Unit =
+      notifyListener { onUninstallFailure(info, error) }
 
   open class Listener {
 
     fun onInstallStart(info: PluginInfo) {}
 
-    fun onInstallProgress(info: PluginInfo, float: Float) {}
+    fun onInstallProgress(info: PluginInfo, progress: Float) {}
 
-    fun onInstallSuccess(info: PluginInfo, plugin: Plugin) {}
+    fun onInstallSuccess(info: PluginInfo, state: PluginState) {}
 
-    fun onInstallFailure(info: PluginInfo, throwable: Throwable) {}
+    fun onInstallFailure(info: PluginInfo, error: Throwable) {}
 
     fun onUninstallStart(plugin: Plugin) {}
 
     fun onUninstallSuccess(info: PluginInfo) {}
 
-    fun onUninstallFailure(info: PluginInfo) {}
+    fun onUninstallFailure(info: PluginInfo, error: Throwable) {}
   }
 }

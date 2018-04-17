@@ -19,7 +19,11 @@ package com.oxviewer.core.plugin
 /**
  * The plugin installing status.
  */
-abstract class PluginStatus(
+abstract class PluginState(
     val info: PluginInfo,
     val enabled: Boolean
-)
+) {
+
+  var plugin: Plugin? = null
+    protected set
+}
