@@ -14,22 +14,14 @@
  * limitations under the License.
  */
 
-include ':core'
-include ':core-jvm'
-include ':core-js'
+apply plugin: 'kotlin-platform-common'
 
-include ':modules:json-minimal-json'
-include ':modules:json-js'
-include ':modules:json-test'
+dependencies {
+    compileOnly project(":core")
+}
 
-include ':modules:dom-jsoup'
-include ':modules:dom-browser'
-include ':modules:dom-test'
-
-include ':test'
-include ':test-jvm'
-include ':test-js'
-
-include ':sample:client-java'
-include ':sample:plugin'
-include ':sample:plugin-java'
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}

@@ -14,22 +14,14 @@
  * limitations under the License.
  */
 
-include ':core'
-include ':core-jvm'
-include ':core-js'
+package com.oxviewer.sample.plugin
 
-include ':modules:json-minimal-json'
-include ':modules:json-js'
-include ':modules:json-test'
+import com.oxviewer.core.plugin.Plugin
+import com.oxviewer.core.source.Source
 
-include ':modules:dom-jsoup'
-include ':modules:dom-browser'
-include ':modules:dom-test'
+class SamplePlugin : Plugin() {
 
-include ':test'
-include ':test-jvm'
-include ':test-js'
-
-include ':sample:client-java'
-include ':sample:plugin'
-include ':sample:plugin-java'
+  override fun setupSources(sources: MutableList<Source>) {
+    sources.add(SampleSource())
+  }
+}

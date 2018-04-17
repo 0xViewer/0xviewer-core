@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-include ':core'
-include ':core-jvm'
-include ':core-js'
+package com.oxviewer.sample.plugin
 
-include ':modules:json-minimal-json'
-include ':modules:json-js'
-include ':modules:json-test'
+import com.oxviewer.core.source.Parameters
+import com.oxviewer.core.source.Pattern
+import com.oxviewer.core.source.Result
+import com.oxviewer.core.source.Section
+import com.oxviewer.core.source.Text
 
-include ':modules:dom-jsoup'
-include ':modules:dom-browser'
-include ':modules:dom-test'
+class SampleSection : Section() {
 
-include ':test'
-include ':test-jvm'
-include ':test-js'
+  override val name: String = "Sample Section"
 
-include ':sample:client-java'
-include ':sample:plugin'
-include ':sample:plugin-java'
+  override fun setupPattern(pattern: Pattern.Builder) {
+    pattern.add(Text(key = "key", default = "default"))
+  }
+
+  override suspend fun search(page: Int, parameters: Parameters): Result = Result(0, emptyList())
+}
