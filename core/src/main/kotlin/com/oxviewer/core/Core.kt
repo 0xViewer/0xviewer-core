@@ -18,11 +18,14 @@ package com.oxviewer.core
 
 import com.oxviewer.core.dom.DocumentFactory
 import com.oxviewer.core.json.JsonFactory
+import com.oxviewer.core.plugin.PluginMan
 import com.oxviewer.core.util.WriteOnceProperty
+import kotlin.coroutines.experimental.CoroutineContext
 
-object OxvCore {
+var UI by WriteOnceProperty<CoroutineContext>()
 
-  var jsonFactory by WriteOnceProperty<JsonFactory>()
+var JSON_FACTORY by WriteOnceProperty<JsonFactory>()
 
-  var documentFactory by WriteOnceProperty<DocumentFactory>()
-}
+var DOCUMENT_FACTORY by WriteOnceProperty<DocumentFactory>()
+
+var PLUGIN_MAN by WriteOnceProperty<PluginMan>()
