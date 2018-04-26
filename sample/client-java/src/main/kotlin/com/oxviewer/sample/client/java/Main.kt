@@ -16,22 +16,16 @@
 
 package com.oxviewer.sample.client.java
 
-import com.google.gson.GsonBuilder
-import com.oxviewer.core.PLUGIN_MAN
-import com.oxviewer.core.UI
-import com.oxviewer.core.plugin.PluginInfo
+import com.oxviewer.core.source.Section
+import com.oxviewer.core.source.Source
 import kotlinx.coroutines.experimental.CoroutineDispatcher
 import kotlinx.coroutines.experimental.Runnable
 import kotlinx.coroutines.experimental.runBlocking
 import java.io.File
+import java.net.URLClassLoader
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.experimental.CoroutineContext
-
-val GSON = GsonBuilder()
-    .registerTypeAdapter(JavaPluginState::class.java, JavaPluginStateJsonSerializer())
-    .registerTypeAdapter(JavaPluginState::class.java, JavaPluginStateJsonDeserializer())
-    .create()
 
 private val TERMINAL = Runnable {}
 
@@ -43,10 +37,7 @@ private val MAIN_DISPATCHER = object : CoroutineDispatcher() {
   }
 }
 
-private fun init() {
-  UI = MAIN_DISPATCHER
-  PLUGIN_MAN = JavaPluginMan()
-}
+private fun init() {}
 
 private fun loop() {
   actions@ while (true) {
@@ -59,24 +50,18 @@ private fun loop() {
   }
 }
 
-private suspend fun start() {
-
-  PLUGIN_MAN.initialize().await()
-
+private fun start() {
   val file = File("../plugin-java/build/libs/plugin-java.jar")
-  val info = PluginInfo(
-      name = "sample_plugin",
-      displayName = "Sample Plugin",
-      uploader = "hippo",
-      displayUploader = "Hippo",
-      version = 1,
-      displayVersion = "1.0",
-      url = file.canonicalFile.toURI().toURL().toString()
-  )
+  val classLoader = URLClassLoader(arrayOf(file.toURI().toURL()), ClassLoader.getSystemClassLoader())
 
-  PLUGIN_MAN.install(info).await()
+  val source = classLoader.loadClass("com.oxviewer.sample.plugin.SampleSource").newInstance() as Source
+  println(source.name)
 
-  println(PLUGIN_MAN.getAllPluginStates())
+  val sections = mutableListOf<Section>()
+  source.setupSections(sections)
+  for (section in sections) {
+    println(section.name)
+  }
 
   terminal()
 }
