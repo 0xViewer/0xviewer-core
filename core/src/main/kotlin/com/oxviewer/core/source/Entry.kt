@@ -22,28 +22,88 @@ import com.oxviewer.core.PublicAPI
  * The abstract of entries got from [sections][Section].
  */
 @PublicAPI
-sealed class Entry
+sealed class Entry {
+
+  /**
+   * The key to identify an entry uniquely.
+   */
+  @PublicAPI
+  abstract val id: String
+
+  /**
+   * Last update time. `0` if can't get it.
+   */
+  @PublicAPI
+  abstract val timestamp: Long
+
+  /**
+   * It's title. `null` if no title.
+   */
+  @PublicAPI
+  abstract val title: String?
+
+  /**
+   * Several sentences about this content. `null` if no description.
+   */
+  @PublicAPI
+  abstract val description: String?
+
+  /**
+   * The url of its thumbnail. `null` if no thumbnail.
+   */
+  @PublicAPI
+  abstract val thumbnail: String?
+
+  /**
+   * The one uploaded this content.`null` if no uploader.
+   */
+  @PublicAPI
+  abstract val uploader: String?
+
+  /**
+   * The rating of this content, [0, 10]. `null` if no rating.
+   */
+  @PublicAPI
+  abstract val rating: Float?
+
+  // TODO how to define tags? Is namespace necessary?
+}
+
 
 /**
  * A image entry.
  */
 @PublicAPI
-abstract class Image : Entry()
+abstract class Image : Entry() {
+
+  /**
+   * The url of the image.
+   */
+  @PublicAPI
+  abstract val url: String
+}
 
 /**
  * A gallery entry. A gallery is a set of images.
  */
 @PublicAPI
-abstract class Gallery : Entry()
+abstract class Gallery : Entry() {
+  // TODO get images incrementally
+}
 
 /**
  * A comic entry. A comic is a set of galleries.
  */
 @PublicAPI
-abstract class Comic : Entry()
+abstract class Comic : Entry() {
+  // TODO get chapters incrementally
+}
 
 /**
- * A sector entry. Instead of an actual content, sector provides a section.
+ * A sector entry. Instead of actual content, sector provides a section.
  */
 @PublicAPI
-abstract class Sector : Entry()
+abstract class Sector @PublicAPI constructor() : Entry() {
+
+  abstract val section: Section
+}
