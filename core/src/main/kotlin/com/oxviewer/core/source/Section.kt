@@ -73,7 +73,7 @@ abstract class Section @PublicAPI constructor() {
 /**
  * Paging search result.
  *
- * @property pages total pages
- * @property data result entries
+ * @property pages how many pages in total
+ * @property data result entries of the page
  */
 data class Result(val pages: Int, val data: List<Entry>)
