@@ -20,8 +20,8 @@ import com.oxviewer.core.PublicAPI
 
 /**
  * The abstract of entries got from [sections][Section].
+ * Actually `Entry` should be a data class.
  */
-@PublicAPI
 sealed class Entry {
 
   /**
@@ -37,58 +37,74 @@ sealed class Entry {
   abstract val timestamp: Long
 
   /**
-   * It's title. `null` if no title.
+   * It's title. `null` if can't get it.
    */
   @PublicAPI
   abstract val title: String?
 
   /**
-   * Several sentences about this content. `null` if no description.
+   * Several sentences about this content. `null` if can't get it.
    */
   @PublicAPI
   abstract val description: String?
 
   /**
-   * The url of its thumbnail. `null` if no thumbnail.
+   * The url of its thumbnail. `null` if can't get it.
    */
   @PublicAPI
   abstract val thumbnail: String?
 
   /**
-   * The one uploaded this content.`null` if no uploader.
+   * The one who uploaded this content.`null` if can't get it.
    */
   @PublicAPI
   abstract val uploader: String?
 
   /**
-   * The rating of this content, [0, 10]. `null` if no rating.
+   * The language of this content.`null` if can't get it.
+   *
+   * It must be a three-letter identifiers of ISO 639-3, or `null`.
+   */
+  @PublicAPI
+  abstract val language: String?
+
+  /**
+   * The rating of this content, [0, 10]. `null` if can't get it.
    */
   @PublicAPI
   abstract val rating: Float?
 
-  // TODO how to define tags? Is namespace necessary?
-}
+  /**
+   * The tags of this content. `null` if can't get them.
+   *
+   * Tags is composed by several tag groups. A group is
+   * composed by one namespace and several tag strings.
+   * If namespace is not supported, use [NO_NAMESPACE].
+   */
+  @PublicAPI
+  abstract val tags: Map<String, List<String>>?
 
+  companion object {
+    const val NO_NAMESPACE: String = "__NO_NAMESPACE__"
+  }
+}
 
 /**
  * A image entry.
  */
 @PublicAPI
-abstract class Image : Entry() {
-
-  /**
-   * The url of the image.
-   */
-  @PublicAPI
-  abstract val url: String
-}
+abstract class Image : Entry()
 
 /**
  * A gallery entry. A gallery is a set of images.
  */
 @PublicAPI
 abstract class Gallery : Entry() {
-  // TODO get images incrementally
+
+  /**
+   * The number of pages. `null` if can't get it.
+   */
+  abstract val pageNum: Int?
 }
 
 /**
@@ -96,14 +112,15 @@ abstract class Gallery : Entry() {
  */
 @PublicAPI
 abstract class Comic : Entry() {
-  // TODO get chapters incrementally
+
+  /**
+   * The number of chapters. `null` if can't get it.
+   */
+  abstract val chapterNum: Int?
 }
 
 /**
  * A sector entry. Instead of actual content, sector provides a section.
  */
 @PublicAPI
-abstract class Sector @PublicAPI constructor() : Entry() {
-
-  abstract val section: Section
-}
+abstract class Sector @PublicAPI constructor() : Entry()
