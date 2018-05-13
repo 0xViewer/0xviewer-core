@@ -16,24 +16,19 @@
 
 package com.oxviewer.core.json
 
-import com.oxviewer.core.PublicAPI
-
 /**
  * Creates [JsonObject] or [JsonArray] instances, and parse json text.
  */
-@PublicAPI
 abstract class JsonFactory {
 
   /**
    * Creates a new [JsonObject].
    */
-  @PublicAPI
   abstract fun newJsonObject(): JsonObject
 
   /**
    * Creates a new [JsonArray].
    */
-  @PublicAPI
   abstract fun newJsonArray(): JsonArray
 
   /**
@@ -41,6 +36,5 @@ abstract class JsonFactory {
    *
    * @throws Throwable if can't parse the text to a [JsonObject] or a [JsonArray]
    */
-  @PublicAPI
   abstract fun parseJson(text: String): Json
 }

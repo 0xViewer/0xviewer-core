@@ -16,18 +16,14 @@
 
 package com.oxviewer.core.source
 
-import com.oxviewer.core.PublicAPI
-
 /**
  * A source is a top-level resources provider, composed of several sections.
  */
-@PublicAPI
-abstract class Source @PublicAPI constructor() {
+abstract class Source {
 
   /**
    * The display name of this source.
    */
-  @PublicAPI
   abstract val name: String
 
   /**
@@ -40,7 +36,6 @@ abstract class Source @PublicAPI constructor() {
    *
    * @see invalidateSections
    */
-  @PublicAPI
   abstract fun setupSections(sections: MutableList<Section>)
 
   /**
@@ -49,7 +44,6 @@ abstract class Source @PublicAPI constructor() {
    *
    * @see setupSections
    */
-  @PublicAPI
   fun invalidateSections() {
     TODO()
   }

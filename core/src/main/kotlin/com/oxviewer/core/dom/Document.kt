@@ -16,24 +16,19 @@
 
 package com.oxviewer.core.dom
 
-import com.oxviewer.core.PublicAPI
-
 /**
  * A HTML Document.
  */
-@PublicAPI
 abstract class Document {
 
   /**
    * Returns the root element of this document.
    * The tag name and attributes of the element are uncertain.
    */
-  @PublicAPI
   abstract val rootElement: Element
 
   /**
    * Find elements that match the [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
    */
-  @PublicAPI
   abstract fun select(cssSelector: String): List<Element>
 }

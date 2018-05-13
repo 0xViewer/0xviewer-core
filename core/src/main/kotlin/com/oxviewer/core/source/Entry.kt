@@ -16,8 +16,6 @@
 
 package com.oxviewer.core.source
 
-import com.oxviewer.core.PublicAPI
-
 /**
  * The abstract of entries got from [sections][Section].
  * Actually `Entry` should be a data class.
@@ -27,37 +25,31 @@ sealed class Entry {
   /**
    * The key to identify an entry uniquely.
    */
-  @PublicAPI
   abstract val id: String
 
   /**
    * Last update time. `0` if can't get it.
    */
-  @PublicAPI
   abstract val timestamp: Long
 
   /**
    * It's title. `null` if can't get it.
    */
-  @PublicAPI
   abstract val title: String?
 
   /**
    * Several sentences about this content. `null` if can't get it.
    */
-  @PublicAPI
   abstract val description: String?
 
   /**
    * The url of its thumbnail. `null` if can't get it.
    */
-  @PublicAPI
   abstract val thumbnail: String?
 
   /**
    * The one who uploaded this content.`null` if can't get it.
    */
-  @PublicAPI
   abstract val uploader: String?
 
   /**
@@ -65,13 +57,11 @@ sealed class Entry {
    *
    * It must be a three-letter identifiers of ISO 639-3, or `null`.
    */
-  @PublicAPI
   abstract val language: String?
 
   /**
    * The rating of this content, [0, 10]. `null` if can't get it.
    */
-  @PublicAPI
   abstract val rating: Float?
 
   /**
@@ -81,7 +71,6 @@ sealed class Entry {
    * composed by one namespace and several tag strings.
    * If namespace is not supported, use [NO_NAMESPACE].
    */
-  @PublicAPI
   abstract val tags: Map<String, List<String>>?
 
   companion object {
@@ -92,13 +81,11 @@ sealed class Entry {
 /**
  * A image entry.
  */
-@PublicAPI
 abstract class Image : Entry()
 
 /**
  * A gallery entry. A gallery is a set of images.
  */
-@PublicAPI
 abstract class Gallery : Entry() {
 
   /**
@@ -110,7 +97,6 @@ abstract class Gallery : Entry() {
 /**
  * A comic entry. A comic is a set of galleries.
  */
-@PublicAPI
 abstract class Comic : Entry() {
 
   /**
@@ -122,5 +108,4 @@ abstract class Comic : Entry() {
 /**
  * A sector entry. Instead of actual content, sector provides a section.
  */
-@PublicAPI
-abstract class Sector @PublicAPI constructor() : Entry()
+abstract class Sector : Entry()

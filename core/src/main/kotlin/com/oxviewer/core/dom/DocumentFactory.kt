@@ -16,14 +16,10 @@
 
 package com.oxviewer.core.dom
 
-import com.oxviewer.core.PublicAPI
-
-@PublicAPI
 abstract class DocumentFactory {
 
   /**
    * Creates a new [Document] from the html text.
    */
-  @PublicAPI
   abstract fun newDocument(html: String): Document
 }

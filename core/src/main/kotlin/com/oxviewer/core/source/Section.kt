@@ -16,20 +16,16 @@
 
 package com.oxviewer.core.source
 
-import com.oxviewer.core.PublicAPI
-
 /**
  * A section is a part of a [source][Source].
  * It provides a search action to get several [entries][Entry]
  * upon [search parameters][Parameters].
  */
-@PublicAPI
-abstract class Section @PublicAPI constructor() {
+abstract class Section {
 
   /**
    * The display name of this section.
    */
-  @PublicAPI
   abstract val name: String
 
   /**
@@ -43,7 +39,6 @@ abstract class Section @PublicAPI constructor() {
    * @see invalidatePattern
    * @see search
    */
-  @PublicAPI
   abstract fun setupPattern(pattern: Pattern.Builder)
 
   /**
@@ -53,7 +48,6 @@ abstract class Section @PublicAPI constructor() {
    * @see setupPattern
    * @see search
    */
-  @PublicAPI
   fun invalidatePattern() {
     TODO()
   }
@@ -66,7 +60,6 @@ abstract class Section @PublicAPI constructor() {
    * @see setupPattern
    * @see invalidatePattern
    */
-  @PublicAPI
   abstract suspend fun search(page: Int, parameters: Parameters): Result
 }
 

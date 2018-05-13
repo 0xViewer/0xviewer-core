@@ -16,91 +16,75 @@
 
 package com.oxviewer.core.dom
 
-import com.oxviewer.core.PublicAPI
-
 /**
  * A HTML element.
  * [equals] and [hashCode] are supported.
  */
-@PublicAPI
 abstract class Element {
 
   /**
    * Returns the name of the tag for this element in low case.
    */
-  @PublicAPI
   abstract val tagName: String
 
   /**
    * Returns the `id` attribute of this element. An empty string if not present.
    */
-  @PublicAPI
   abstract val id: String
 
   /**
    * Returns all of the element's class names. An empty list if no class name.
    */
-  @PublicAPI
   abstract val classNames: List<String>
 
   /**
    * Returns the element's inner HTML.
    */
-  @PublicAPI
   abstract val innerHtml: String
 
   /**
    * Returns the element's outer HTML.
    */
-  @PublicAPI
   abstract val outerHtml: String
 
   /**
    * Returns the element's text.
    */
-  @PublicAPI
   abstract val text: String
 
   /**
    * Returns the element's parent.
    */
-  @PublicAPI
   abstract val parent: Element?
 
   /**
    * Returns the element's children.
    */
-  @PublicAPI
   abstract val children: List<Element>
 
   /**
    * Returns the next sibling element of this element.
    */
-  @PublicAPI
   abstract val nextSibling: Element?
 
   /**
    * Returns the previous sibling element of this element.
    */
-  @PublicAPI
   abstract val previousSibling: Element?
 
   /**
    * Returns an attribute's value by its key. The key is case insensitive.
    * An empty list if not present.
    */
-  @PublicAPI
   abstract fun attr(key: String): String
 
   /**
    * Returns `true` if this element has an attribute with the key.
    */
-  @PublicAPI
   abstract fun hasAttr(key: String): Boolean
 
   /**
    * Find child elements that match the [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
    */
-  @PublicAPI
   abstract fun select(cssSelector: String): List<Element>
 }
