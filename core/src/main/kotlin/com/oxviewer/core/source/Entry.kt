@@ -30,39 +30,39 @@ sealed class Entry {
   /**
    * Last update time. `0` if can't get it.
    */
-  abstract val timestamp: Long
+  open val version: Long = 0
 
   /**
    * It's title. `null` if can't get it.
    */
-  abstract val title: String?
+  open val title: String? = null
 
   /**
    * Several sentences about this content. `null` if can't get it.
    */
-  abstract val description: String?
+  open val description: String? = null
 
   /**
    * The url of its thumbnail. `null` if can't get it.
    */
-  abstract val thumbnail: String?
+  open val thumbnail: String? = null
 
   /**
-   * The one who uploaded this content.`null` if can't get it.
+   * The one who uploaded this content. `null` if can't get it.
    */
-  abstract val uploader: String?
+  open val uploader: String? = null
 
   /**
-   * The language of this content.`null` if can't get it.
+   * The language of this content. `null` if can't get it.
    *
-   * It must be a three-letter identifiers of ISO 639-3, or `null`.
+   * It must be a three-letter identifiers of [ISO 639-3](https://en.wikipedia.org/wiki/List_of_ISO_639-3_codes), or `null`.
    */
-  abstract val language: String?
+  open val language: String? = null
 
   /**
    * The rating of this content, [0, 10]. `null` if can't get it.
    */
-  abstract val rating: Float?
+  open val rating: Float? = null
 
   /**
    * The tags of this content. `null` if can't get them.
@@ -71,7 +71,7 @@ sealed class Entry {
    * composed by one namespace and several tag strings.
    * If namespace is not supported, use [NO_NAMESPACE].
    */
-  abstract val tags: Map<String, List<String>>?
+  open val tags: Map<String, List<String>>? = null
 
   companion object {
     const val NO_NAMESPACE: String = "__NO_NAMESPACE__"
@@ -91,7 +91,7 @@ abstract class Gallery : Entry() {
   /**
    * The number of pages. `null` if can't get it.
    */
-  abstract val pageNum: Int?
+  open val pageNum: Int? = null
 }
 
 /**
@@ -102,7 +102,7 @@ abstract class Comic : Entry() {
   /**
    * The number of chapters. `null` if can't get it.
    */
-  abstract val chapterNum: Int?
+  open val chapterNum: Int? = null
 }
 
 /**
